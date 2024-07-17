@@ -1,16 +1,24 @@
-import { CustomerField } from '@/app/lib/definitions';
-import Link from 'next/link';
+"use client";
+
+import { createInvoice } from "@/app/lib/actions";
+import { CustomerField } from "@/app/lib/definitions";
+import { Button } from "@/app/ui/button";
 import {
   CheckIcon,
   ClockIcon,
   CurrencyDollarIcon,
   UserCircleIcon,
-} from '@heroicons/react/24/outline';
-import { Button } from '@/app/ui/button';
+} from "@heroicons/react/24/outline";
+import Link from "next/link";
+import { useActionState } from "react";
+import { useFormStatus } from "react-dom";
 
 export default function Form({ customers }: { customers: CustomerField[] }) {
+  let { pending } = useFormStatus();
+  let [_state, formAction] = useActionState(createInvoice, null);
+
   return (
-    <form>
+    <form action={formAction}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
         {/* Customer Name */}
         <div className="mb-4">
@@ -105,7 +113,9 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
         >
           Cancel
         </Link>
-        <Button type="submit">Create Invoice</Button>
+        <Button type="submit">
+          {pending ? "Creating Invoice..." : "Create Invoice"}
+        </Button>
       </div>
     </form>
   );
