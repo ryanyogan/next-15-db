@@ -35,6 +35,7 @@ export async function createInvoice(_: any, formData: FormData) {
     return { message: "Database Error: Failed to Update Invoice." };
   }
 
+  revalidatePath("/dashboard");
   revalidatePath("/dashboard/invoices");
   redirect("/dashboard/invoices");
 }
@@ -60,6 +61,7 @@ export async function updateInvoice(id: string, formData: FormData) {
     };
   }
 
+  revalidatePath("/dashboard");
   revalidatePath("/dashboard/invoices");
   redirect("/dashboard/invoices");
 }
